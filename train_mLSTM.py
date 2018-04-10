@@ -9,7 +9,7 @@ import tensorflow as tf
 import time
 import io
 from Utilities import DataLoader
-import caffeine
+#import caffeine
 
 
 parser = argparse.ArgumentParser(
@@ -240,11 +240,11 @@ with tf.Session(graph=graph) as session:
     writer = tf.summary.FileWriter(os.path.join(args.log_dir, timestamp))
     writer.add_graph(session.graph)
 
-    for epoch in xrange(args.num_epochs):
+    for epoch in range(args.num_epochs):
 
         loader.reset_batch_pointer()
 
-        for batch in xrange(loader.num_batches):
+        for batch in range(loader.num_batches):
 
             gs = session.run(global_step)
             start = time.time()
@@ -295,13 +295,13 @@ with tf.Session(graph=graph) as session:
                     else:
 
                         # prime with a random byte
-                        feed = np.array(random.sample(xrange(vocabulary_size),1), dtype='int32')
+                        feed = np.array(random.sample(range(vocabulary_size),1), dtype='int32')
                         prediction = session.run(sample_prediction, feed_dict = {sample_input: feed})
 
-                    for _ in xrange(args.num_chars):
+                    for _ in range(args.num_chars):
 
                         # sequence is generated here
-                        feed = np.expand_dims(np.random.choice(xrange(vocabulary_size), p=prediction.ravel()),axis=0)
+                        feed = np.expand_dims(np.random.choice(range(vocabulary_size), p=prediction.ravel()),axis=0)
                         sentence.append(int(feed))
                         prediction = session.run(sample_prediction, feed_dict = {sample_input: feed})
 
